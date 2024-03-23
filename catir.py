@@ -96,6 +96,8 @@ Examples:
                         action='store_true', help='Include hidden files')
     parser.add_argument('-t', dest='test', default=False, action='store_true',
                         help='Test mode. Don\'t apply changes.')
+    parser.add_argument('--deployment-name', dest='deployment_name', default=None,
+                    help='Deployment name (default: derived from directory structure)')
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-v", "--verbose", action="store_true")
     group.add_argument("-q", "--quiet", action="store_true")
@@ -137,7 +139,7 @@ def get_exif_data(img_file):
 
 def main():
     """Read CLI arguments and execute the script"""
-    
+
     skipped_files = []
     args = get_cmd_args()
 
@@ -149,6 +151,7 @@ def main():
     test_mode = args.test
     recursive = args.recursive
     include_hidden = args.hidden
+    deployment_name = args.deployment_name
 
     for input_path in input_paths:
         for root, dirs, files in os.walk(input_path):
@@ -214,10 +217,10 @@ def main():
                 new_file_name = (input_format + '.{ext}').format(**new_image_data)
                 new_file_name_with_path = os.path.join(root, new_file_name)
                 import os.path as path
-                deployment_name = new_file_name_with_path.split("/")[-5]
 
+                if not deployment_name:
+                    deployment_name = new_file_name_with_path.split("/")[-5]
                 new_file_name_complete = os.path.join(root, deployment_name + "_" + new_file_name)
-
 
                 # Don't overwrite an already existing file. Instead, increment {ss} until we have a unique filename.
                 while (os.path.isfile(new_file_name_complete)):                   
