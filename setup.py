@@ -9,7 +9,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'catir=catir:__main__',
+            'catir=catir:main',
         ],
     },
     author='Mahangu Weerasinghe',
