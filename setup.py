@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='catir',
-    version='0.5',
+    version='0.6',
     py_modules=['catir'],
     install_requires=[
         'Pillow',
