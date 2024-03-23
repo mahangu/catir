@@ -99,6 +99,8 @@ Examples:
                         help='Test mode. Don\'t apply changes.')
     parser.add_argument('--deployment-name', dest='deployment_name', default=None,
                         help='Deployment name (default: derived from directory structure)')
+    parser.add_argument('--timestamp-format', dest='timestamp_format', default='{YYYY}-{MM}-{DD}_{hh}-{mm}-{ss}',
+                        help='Custom input format for filename (default: "{YYYY}-{MM}-{DD}_{hh}-{mm}-{ss}")')
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-v", "--verbose", action="store_true")
     group.add_argument("-q", "--quiet", action="store_true")
@@ -145,7 +147,7 @@ def main():
     args = get_cmd_args()
 
     input_paths = [os.path.abspath(input) for input in args.input]
-    input_format = '{YYYY}-{MM}-{DD}_{hh}-{mm}-{ss}'  # Hardcoded filename format for the project
+    timestamp_format = args.timestamp_format
     verbose = args.verbose
     quiet = args.quiet
     sequence_start = args.sequence
@@ -215,7 +217,7 @@ def main():
                 new_image_data.update(img_timestamp.groupdict())
 
                 # Generate new file name according to user provided format
-                new_file_name = (input_format + '.{ext}').format(**new_image_data)
+                new_file_name = (timestamp_format + '.{ext}').format(**new_image_data)
                 new_file_name_with_path = os.path.join(root, new_file_name)
                 import os.path as path
 
