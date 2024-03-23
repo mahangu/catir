@@ -37,6 +37,7 @@ from PIL.ExifTags import TAGS
 
 # Hideous monkeypatch. ymmv
 from PIL import JpegImagePlugin
+
 JpegImagePlugin._getmp = lambda x: None
 
 
@@ -86,7 +87,7 @@ Examples:
     parser = argparse.ArgumentParser(description=help_description,
                                      formatter_class=argparse.RawTextHelpFormatter,
                                      epilog=help_epilog)
-    
+
     parser.add_argument('-s', dest='sequence', type=int, default=1,
                         help='Starting sequence number (default: 1)')
     parser.add_argument('-r', dest='recursive', default=False,
@@ -97,7 +98,7 @@ Examples:
     parser.add_argument('-t', dest='test', default=False, action='store_true',
                         help='Test mode. Don\'t apply changes.')
     parser.add_argument('--deployment-name', dest='deployment_name', default=None,
-                    help='Deployment name (default: derived from directory structure)')
+                        help='Deployment name (default: derived from directory structure)')
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-v", "--verbose", action="store_true")
     group.add_argument("-q", "--quiet", action="store_true")
@@ -144,7 +145,7 @@ def main():
     args = get_cmd_args()
 
     input_paths = [os.path.abspath(input) for input in args.input]
-    input_format = '{YYYY}-{MM}-{DD}_{hh}-{mm}-{ss}' # Hardcoded filename format for the project
+    input_format = '{YYYY}-{MM}-{DD}_{hh}-{mm}-{ss}'  # Hardcoded filename format for the project
     verbose = args.verbose
     quiet = args.quiet
     sequence_start = args.sequence
@@ -193,7 +194,7 @@ def main():
                     continue
 
                 # Extract year, month, day, hours, minutes, seconds from timestamp
-                img_timestamp =\
+                img_timestamp = \
                     re.search(r'(?P<YYYY>\d\d\d?\d?):(?P<MM>\d\d?):(?P<DD>\d\d?) '
                               '(?P<hh>\d\d?):(?P<mm>\d\d?):(?P<ss>\d\d?)',
                               img_timestamp.strip())
@@ -223,18 +224,18 @@ def main():
                 new_file_name_complete = os.path.join(root, deployment_name + "_" + new_file_name)
 
                 # Don't overwrite an already existing file. Instead, increment {ss} until we have a unique filename.
-                while (os.path.isfile(new_file_name_complete)):                   
-                  print("Duplicate file found: " + new_file_name_complete)
+                while (os.path.isfile(new_file_name_complete)):
+                    print("Duplicate file found: " + new_file_name_complete)
 
-                  current_args = new_file_name.split('.', 1 )
-                  seconds = int(current_args[0][-2:])
-                  rest_of_args = current_args[0][:17]
-                  seconds += 1 
+                    current_args = new_file_name.split('.', 1)
+                    seconds = int(current_args[0][-2:])
+                    rest_of_args = current_args[0][:17]
+                    seconds += 1
 
-                  new_file_name = (rest_of_args + str(seconds).zfill(2)  + '.{ext}').format(**new_image_data)
-                  new_file_name_complete = os.path.join(root, deployment_name + "_" + new_file_name)
+                    new_file_name = (rest_of_args + str(seconds).zfill(2) + '.{ext}').format(**new_image_data)
+                    new_file_name_complete = os.path.join(root, deployment_name + "_" + new_file_name)
 
-                  print("Renaming file to: " + new_file_name_complete)
+                    print("Renaming file to: " + new_file_name_complete)
 
                 # Don't rename files if we are running in test mode
                 if not test_mode:
@@ -247,7 +248,7 @@ def main():
 
                 if verbose:
                     print('{0} --> {1}'.format(old_file_name,
-                                             new_file_name_complete))
+                                               new_file_name_complete))
                 elif not quiet:
                     print('{0} --> {1}'.format(f, new_file_name))
 
