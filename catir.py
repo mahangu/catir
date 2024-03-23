@@ -134,7 +134,10 @@ def get_exif_data(img_file):
     exif_data['format'] = img.format
     return exif_data
 
-if __name__ == '__main__':
+
+def main():
+    """Read CLI arguments and execute the script"""
+    
     skipped_files = []
     args = get_cmd_args()
 
@@ -257,3 +260,7 @@ if __name__ == '__main__':
         print('\nSkipped Files:\n\t' + '\n\t'.join([file + ' (' + error + ')'
                                                     for file, error in
                                                     skipped_files]))
+
+
+if __name__ == '__main__':
+    main()
