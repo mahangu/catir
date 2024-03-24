@@ -1,7 +1,6 @@
 #! /usr/bin/env python3
 
-# CAmera Trap Image Renamer (CATIR) 0.5 for fishingcats.lk
-# Mar 23, 2024
+# CAmera Trap Image Renamer (CATIR) for fishingcats.lk
 # Author: Mahangu Weerasinghe (mahangu@gmail.com)
 # This is a project-specific fork, and is not intended for 
 # mass release or distribution. 
