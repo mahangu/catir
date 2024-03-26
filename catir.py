@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
-# CAmera Trap Image Renamer (CATIR) for fishingcats.lk
+# CAmera Trap Image Renamer (CATIR) for the
+# Urban Fishing Cat Conservation Project (fishingcats.lk)
 # Author: Mahangu Weerasinghe (mahangu@gmail.com)
 # This is a project-specific fork, and is not intended for 
 # mass release or distribution. 
@@ -50,42 +51,33 @@ class InvalidExifData(Exception):
     pass
 
 
+def get_argparse_epilog():
+    usage = "Possible arguments:\n"
+    parser = argparse.ArgumentParser(add_help=False)
+    for action in parser._actions:
+        if action.option_strings:
+            usage += ', '.join(action.option_strings)
+            usage += f": {action.help}\n"
+    return usage
+
+
 def get_cmd_args():
     """Get, process and return command line arguments to the script
     """
     help_description = '''
-Smart Image Renamer
+CAmera Trap Image Renamer (CATIR)
+Urban Fishing Cat Conservation Project (fishingcats.lk)
+https://github.com/mahangu/catir/
 
-Rename your photos in bulk using information stored in EXIF.
+Rename camera trap images according to a set format, incrementing seconds if
+duplicates are found.
+
+Forked from: https://github.com/ronakg/smart-image-renamer
 '''
-
-    help_epilog = '''
-Format string for the file name is defined by a mix of custom text and following tags enclosed in {}:
-  YYYY        Year
-  MM          Month
-  DD          Day
-  hh          Hours
-  mm          Minutes
-  ss          Seconds
-  Seq         Sequence number
-  Artist      Artist
-  Make        Camera Make
-  Model       Camera Model
-  Folder      Parent folder of the image file
-
-Examples:
-  Format String:          {YYYY}-{MM}-{DD}-{Folder}-{Seq}
-  File Name:              2014-05-09-Wedding_Shoot-001.JPEG
-                          2014-05-09-Wedding_Shoot-002.JPEG
-
-  Format String:          {YYYY}{DD}{MM}_{Model}_Beach_Shoot_{Seq}
-  File Name:              20140429_PENTAX K-x_Beach_Shoot_001.JPEG
-                          20140429_PENTAX K-x_Beach_Shoot_002.JPEG
-    '''
 
     parser = argparse.ArgumentParser(description=help_description,
                                      formatter_class=argparse.RawTextHelpFormatter,
-                                     epilog=help_epilog)
+                                     epilog=get_argparse_epilog())
 
     parser.add_argument('-s', dest='sequence', type=int, default=1,
                         help='Starting sequence number (default: 1)')
