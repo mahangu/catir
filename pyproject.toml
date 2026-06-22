@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "catir"
+version = "0.6"
+description = "Camera Trap Image Renamer (CATIR)"
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "GPL-2.0-or-later" }
+authors = [{ name = "Mahangu Weerasinghe", email = "mahangu@gmail.com" }]
+dependencies = ["Pillow"]
+
+[project.urls]
+Homepage = "https://github.com/mahangu/catir"
+
+[project.scripts]
+catir = "catir:main"
+
+[tool.setuptools]
+py-modules = ["catir"]
